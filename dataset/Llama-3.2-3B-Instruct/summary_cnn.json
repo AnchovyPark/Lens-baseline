@@ -1,0 +1,45 @@
+{
+  "dataset": "cnn",
+  "meta": {
+    "model": "/home/parkjuhyun/models/Llama-3.2-3B-Instruct",
+    "tp_degree": 1,
+    "max_model_len": 8192,
+    "n_samples": 50,
+    "sampling_seed": 43,
+    "backend": "vllm-tpu",
+    "device": "tpu-v5e",
+    "jax_version": "N/A",
+    "tpu_devices": "N/A"
+  },
+  "total_samples": 50,
+  "ok_samples": 50,
+  "skipped_samples": 0,
+  "ttft_ms": {
+    "mean": 54.667,
+    "median": 40.092,
+    "min": 14.492,
+    "max": 169.743,
+    "p99": 159.393,
+    "stdev": 32.344
+  },
+  "tpot_ms": {
+    "mean": 10.488,
+    "median": 10.466,
+    "min": 10.366,
+    "max": 10.752,
+    "p99": 10.678,
+    "stdev": 0.083
+  },
+  "e2e_ms": {
+    "mean": 774.047,
+    "median": 776.957,
+    "min": 227.438,
+    "max": 1438.522,
+    "p99": 1353.637,
+    "stdev": 253.651
+  },
+  "decode_throughput_tps": {
+    "mean": 96.94,
+    "median": 96.8
+  }
+}

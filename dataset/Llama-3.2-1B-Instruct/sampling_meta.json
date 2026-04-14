@@ -1,0 +1,93 @@
+{
+  "method": "random",
+  "seed": 42,
+  "n_samples": 50,
+  "max_context": 8192,
+  "timestamp": "2026-04-13 02:28:57",
+  "datasets": {
+    "sharegpt": {
+      "original_count": 200943,
+      "filtered_count": 200909,
+      "sampled_count": 50,
+      "stats": {
+        "input_len": {
+          "min": 1,
+          "max": 1245,
+          "mean": 84.3,
+          "median": 21,
+          "p95": 290
+        },
+        "output_len": {
+          "min": 1,
+          "max": 1083,
+          "mean": 336.7,
+          "median": 324,
+          "p95": 619
+        },
+        "total_len": {
+          "min": 25,
+          "max": 1877,
+          "mean": 421.0,
+          "median": 401,
+          "p95": 873
+        }
+      }
+    },
+    "cnn": {
+      "original_count": 287113,
+      "filtered_count": 287113,
+      "sampled_count": 50,
+      "stats": {
+        "input_len": {
+          "min": 217,
+          "max": 2480,
+          "mean": 967.0,
+          "median": 847,
+          "p95": 2067
+        },
+        "output_len": {
+          "min": 30,
+          "max": 181,
+          "mean": 68.6,
+          "median": 66,
+          "p95": 112
+        },
+        "total_len": {
+          "min": 247,
+          "max": 2536,
+          "mean": 1035.6,
+          "median": 912,
+          "p95": 2110
+        }
+      }
+    },
+    "arxiv": {
+      "original_count": 202914,
+      "filtered_count": 116310,
+      "sampled_count": 50,
+      "stats": {
+        "input_len": {
+          "min": 42,
+          "max": 7649,
+          "mean": 4890.6,
+          "median": 5120,
+          "p95": 7034
+        },
+        "output_len": {
+          "min": 53,
+          "max": 3824,
+          "mean": 289.3,
+          "median": 216,
+          "p95": 469
+        },
+        "total_len": {
+          "min": 1017,
+          "max": 7947,
+          "mean": 5180.0,
+          "median": 5270,
+          "p95": 7440
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,66 @@
+WARNING:root:libtpu.so and TPU device found. Setting PJRT_DEVICE=TPU.
+prefill configs: 9  decode configs: 9
+output dir: /home/parkjuhyun/perf_models_raw/TPU-v5e-1/
+profiler server started on port 9012
+[warn] out_path is not in Drive: /home/parkjuhyun/perf_models_raw/TPU-v5e-1/meta-llama_Llama-3.2-1B-Instruct.csv
+[XLA] runtime device_type=TPU
+[Device] kind=xla, device=xla:0
+Profiling configs:   0%|          | 0/18 [00:00<?, ?cfg/s]Profiling configs:   0%|          | 0/18 [00:00<?, ?cfg/s, in=1, kv=0]Starting from v4.46, the `logits` model output will have the same type as the model (except at train time, where it will always be FP32)
+Starting to trace for 6000 ms. Remaining attempt(s): 2
+2026-04-14 11:33:41.257457: W external/tsl/tsl/profiler/lib/profiler_session.cc:109] Profiling is late by 660120 nanoseconds and will start immediately.
+input_len: 1, kv_len: 0, estimated:0.0
+Profiling configs:   6%|▌         | 1/18 [00:08<02:24,  8.51s/cfg, in=1, kv=0]Profiling configs:   6%|▌         | 1/18 [00:08<02:24,  8.51s/cfg, in=256, kv=0]Starting to trace for 6000 ms. Remaining attempt(s): 2
+2026-04-14 11:33:54.527212: W external/tsl/tsl/profiler/lib/profiler_session.cc:109] Profiling is late by 601980 nanoseconds and will start immediately.
+input_len: 256, kv_len: 0, estimated:0.0
+Profiling configs:  11%|█         | 2/18 [00:21<03:00, 11.31s/cfg, in=256, kv=0]Profiling configs:  11%|█         | 2/18 [00:21<03:00, 11.31s/cfg, in=512, kv=0]Starting to trace for 6000 ms. Remaining attempt(s): 2
+2026-04-14 11:34:08.698619: W external/tsl/tsl/profiler/lib/profiler_session.cc:109] Profiling is late by 787990 nanoseconds and will start immediately.
+input_len: 512, kv_len: 0, estimated:0.0
+Profiling configs:  17%|█▋        | 3/18 [00:35<03:09, 12.62s/cfg, in=512, kv=0]Profiling configs:  17%|█▋        | 3/18 [00:35<03:09, 12.62s/cfg, in=768, kv=0]Starting to trace for 6000 ms. Remaining attempt(s): 2
+2026-04-14 11:34:23.586989: W external/tsl/tsl/profiler/lib/profiler_session.cc:109] Profiling is late by 942850 nanoseconds and will start immediately.
+input_len: 768, kv_len: 0, estimated:0.0
+Profiling configs:  22%|██▏       | 4/18 [00:50<03:09, 13.52s/cfg, in=768, kv=0]Profiling configs:  22%|██▏       | 4/18 [00:50<03:09, 13.52s/cfg, in=1024, kv=0]Starting to trace for 6000 ms. Remaining attempt(s): 2
+2026-04-14 11:34:37.975832: W external/tsl/tsl/profiler/lib/profiler_session.cc:109] Profiling is late by 733949 nanoseconds and will start immediately.
+input_len: 1024, kv_len: 0, estimated:0.0
+Profiling configs:  28%|██▊       | 5/18 [01:05<02:59, 13.83s/cfg, in=1024, kv=0]Profiling configs:  28%|██▊       | 5/18 [01:05<02:59, 13.83s/cfg, in=1280, kv=0]Starting to trace for 6000 ms. Remaining attempt(s): 2
+2026-04-14 11:34:53.919770: W external/tsl/tsl/profiler/lib/profiler_session.cc:109] Profiling is late by 1270060 nanoseconds and will start immediately.
+input_len: 1280, kv_len: 0, estimated:0.0
+Profiling configs:  33%|███▎      | 6/18 [01:21<02:54, 14.55s/cfg, in=1280, kv=0]Profiling configs:  33%|███▎      | 6/18 [01:21<02:54, 14.55s/cfg, in=1536, kv=0]Starting to trace for 6000 ms. Remaining attempt(s): 2
+2026-04-14 11:35:10.278334: W external/tsl/tsl/profiler/lib/profiler_session.cc:109] Profiling is late by 709840 nanoseconds and will start immediately.
+input_len: 1536, kv_len: 0, estimated:0.0
+Profiling configs:  39%|███▉      | 7/18 [01:37<02:46, 15.14s/cfg, in=1536, kv=0]Profiling configs:  39%|███▉      | 7/18 [01:37<02:46, 15.14s/cfg, in=1792, kv=0]Starting to trace for 6000 ms. Remaining attempt(s): 2
+2026-04-14 11:35:24.296066: W external/tsl/tsl/profiler/lib/profiler_session.cc:109] Profiling is late by 703560 nanoseconds and will start immediately.
+input_len: 1792, kv_len: 0, estimated:0.0
+Profiling configs:  44%|████▍     | 8/18 [01:51<02:27, 14.78s/cfg, in=1792, kv=0]Profiling configs:  44%|████▍     | 8/18 [01:51<02:27, 14.78s/cfg, in=2048, kv=0]Starting to trace for 6000 ms. Remaining attempt(s): 2
+2026-04-14 11:35:39.874479: W external/tsl/tsl/profiler/lib/profiler_session.cc:109] Profiling is late by 915769 nanoseconds and will start immediately.
+input_len: 2048, kv_len: 0, estimated:0.0
+Profiling configs:  50%|█████     | 9/18 [02:07<02:15, 15.03s/cfg, in=2048, kv=0]Profiling configs:  50%|█████     | 9/18 [02:07<02:15, 15.03s/cfg, in=1, kv=1]   Starting to trace for 6000 ms. Remaining attempt(s): 2
+2026-04-14 11:35:47.958432: W external/tsl/tsl/profiler/lib/profiler_session.cc:109] Profiling is late by 1012970 nanoseconds and will start immediately.
+input_len: 1, kv_len: 1, estimated:0.0
+Profiling configs:  56%|█████▌    | 10/18 [02:15<01:43, 12.88s/cfg, in=1, kv=1]Profiling configs:  56%|█████▌    | 10/18 [02:15<01:43, 12.88s/cfg, in=1, kv=256]Starting to trace for 6000 ms. Remaining attempt(s): 2
+2026-04-14 11:35:56.477609: W external/tsl/tsl/profiler/lib/profiler_session.cc:109] Profiling is late by 742610 nanoseconds and will start immediately.
+input_len: 1, kv_len: 256, estimated:0.0
+Profiling configs:  61%|██████    | 11/18 [02:23<01:20, 11.55s/cfg, in=1, kv=256]Profiling configs:  61%|██████    | 11/18 [02:23<01:20, 11.55s/cfg, in=1, kv=512]Starting to trace for 6000 ms. Remaining attempt(s): 2
+2026-04-14 11:36:05.029706: W external/tsl/tsl/profiler/lib/profiler_session.cc:109] Profiling is late by 718920 nanoseconds and will start immediately.
+input_len: 1, kv_len: 512, estimated:0.0
+Profiling configs:  67%|██████▋   | 12/18 [02:32<01:03, 10.64s/cfg, in=1, kv=512]Profiling configs:  67%|██████▋   | 12/18 [02:32<01:03, 10.64s/cfg, in=1, kv=768]Starting to trace for 6000 ms. Remaining attempt(s): 2
+2026-04-14 11:36:13.402769: W external/tsl/tsl/profiler/lib/profiler_session.cc:109] Profiling is late by 928020 nanoseconds and will start immediately.
+input_len: 1, kv_len: 768, estimated:0.0
+Profiling configs:  72%|███████▏  | 13/18 [02:40<00:49,  9.95s/cfg, in=1, kv=768]Profiling configs:  72%|███████▏  | 13/18 [02:40<00:49,  9.95s/cfg, in=1, kv=1024]Starting to trace for 6000 ms. Remaining attempt(s): 2
+2026-04-14 11:36:21.806972: W external/tsl/tsl/profiler/lib/profiler_session.cc:109] Profiling is late by 673010 nanoseconds and will start immediately.
+input_len: 1, kv_len: 1024, estimated:0.0
+Profiling configs:  78%|███████▊  | 14/18 [02:49<00:37,  9.48s/cfg, in=1, kv=1024]Profiling configs:  78%|███████▊  | 14/18 [02:49<00:37,  9.48s/cfg, in=1, kv=1280]Starting to trace for 6000 ms. Remaining attempt(s): 2
+2026-04-14 11:36:30.236574: W external/tsl/tsl/profiler/lib/profiler_session.cc:109] Profiling is late by 755360 nanoseconds and will start immediately.
+input_len: 1, kv_len: 1280, estimated:0.0
+Profiling configs:  83%|████████▎ | 15/18 [02:57<00:27,  9.17s/cfg, in=1, kv=1280]Profiling configs:  83%|████████▎ | 15/18 [02:57<00:27,  9.17s/cfg, in=1, kv=1536]Starting to trace for 6000 ms. Remaining attempt(s): 2
+2026-04-14 11:36:38.655021: W external/tsl/tsl/profiler/lib/profiler_session.cc:109] Profiling is late by 783980 nanoseconds and will start immediately.
+input_len: 1, kv_len: 1536, estimated:0.0
+Profiling configs:  89%|████████▉ | 16/18 [03:05<00:17,  8.94s/cfg, in=1, kv=1536]Profiling configs:  89%|████████▉ | 16/18 [03:05<00:17,  8.94s/cfg, in=1, kv=1792]Starting to trace for 6000 ms. Remaining attempt(s): 2
+2026-04-14 11:36:47.063946: W external/tsl/tsl/profiler/lib/profiler_session.cc:109] Profiling is late by 831720 nanoseconds and will start immediately.
+input_len: 1, kv_len: 1792, estimated:0.0
+Profiling configs:  94%|█████████▍| 17/18 [03:14<00:08,  8.78s/cfg, in=1, kv=1792]Profiling configs:  94%|█████████▍| 17/18 [03:14<00:08,  8.78s/cfg, in=1, kv=2048]Starting to trace for 6000 ms. Remaining attempt(s): 2
+2026-04-14 11:36:55.454237: W external/tsl/tsl/profiler/lib/profiler_session.cc:109] Profiling is late by 550400 nanoseconds and will start immediately.
+input_len: 1, kv_len: 2048, estimated:0.0
+Profiling configs: 100%|██████████| 18/18 [03:22<00:00,  8.66s/cfg, in=1, kv=2048]Profiling configs: 100%|██████████| 18/18 [03:22<00:00, 11.26s/cfg, in=1, kv=2048]
+[OK] CSV stored:  /home/parkjuhyun/perf_models_raw/TPU-v5e-1/meta-llama_Llama-3.2-1B-Instruct.csv
+
+[DONE] raw csv: /home/parkjuhyun/perf_models_raw/TPU-v5e-1/meta-llama_Llama-3.2-1B-Instruct.csv

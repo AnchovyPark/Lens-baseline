@@ -14,10 +14,14 @@ sys.path.insert(0, os.getcwd())
 # XLA shim (must run before any author module imports)
 import torch
 import torch_xla
-import torch_xla.core.xla_model as xm  # noqa: F401
-torch.cuda.synchronize = lambda *a, **k: torch_xla.sync()
+import torch_xla.core.xla_model as xm
+def _xla_full_sync(*a, **k):
+    """CUDA synchronize equivalent: queue + BLOCK until device idle."""
+    torch_xla.sync()           # mark_step: queue current graph
+    xm.wait_device_ops()       # block until all queued ops actually complete
+torch.cuda.synchronize = _xla_full_sync
 torch.cuda.empty_cache = lambda: None
-print("[xla_shim] patched torch.cuda.synchronize -> torch_xla.sync")
+print("[xla_shim] patched torch.cuda.synchronize -> sync + wait_device_ops")
 
 from profiler.layers.main import run_profile
 

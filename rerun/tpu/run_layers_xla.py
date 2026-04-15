@@ -27,10 +27,17 @@ sys.path.insert(0, os.getcwd())
 import torch
 try:
     import torch_xla
-    import torch_xla.core.xla_model as xm  # noqa: F401 (imported to init XLA)
-    torch.cuda.synchronize = lambda *a, **k: torch_xla.sync()
+    import torch_xla.core.xla_model as xm
+    def _xla_full_sync(*a, **k):
+        """CUDA synchronize equivalent: queue + BLOCK until device idle.
+        torch_xla.sync() alone is async (mark_step) — must follow with
+        wait_device_ops() to match torch.cuda.synchronize() blocking semantics.
+        """
+        torch_xla.sync()
+        xm.wait_device_ops()
+    torch.cuda.synchronize = _xla_full_sync
     torch.cuda.empty_cache = lambda: None
-    print("[xla_shim] patched torch.cuda.synchronize -> torch_xla.sync")
+    print("[xla_shim] patched torch.cuda.synchronize -> sync + wait_device_ops")
 except Exception as e:
     print(f"[xla_shim] NOT patched (import failed: {e})")
     raise

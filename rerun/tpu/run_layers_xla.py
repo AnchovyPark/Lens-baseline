@@ -18,6 +18,11 @@ Run from inside the llm_profile/ directory:
 import os
 import sys
 
+# When invoked by absolute path, sys.path[0] is the script dir, not CWD.
+# The author's `from models.llama import ...` and `from profiler.* import ...`
+# require CWD (= LLMServingSim/llm_profile/) on sys.path.
+sys.path.insert(0, os.getcwd())
+
 # ---- XLA compatibility shim (must run before any profiler import) ----
 import torch
 try:

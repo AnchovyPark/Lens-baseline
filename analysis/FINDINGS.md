@@ -68,6 +68,70 @@ Either way: **the fix is to use a torch_xla version whose profiler output is
 already correlated (Chrome trace JSON) rather than raw xplane.pb**. That is
 the downgrade-to-2.4 plan in `SETUP.md`.
 
+---
+
+## 2026-04-15 update: the deeper root cause
+
+Tested `torch_xla==2.4.0` and `torch_xla==2.8.0` (the latter matching what the
+notebook's cell-0 output shows the original author ran: `torch: 2.8.0+cpu`).
+
+Findings:
+
+- **2.4**: `xp.start_trace` / `xp.stop_trace` removed. Only `trace_detached`
+  and `xp.trace(duration_ms=...)` remain. Wrote only `xplane.pb`.
+- **2.8**: `xp.start_trace` / `xp.stop_trace` restored. Writes **both**
+  `.trace.json.gz` (Chrome trace) and `.xplane.pb`.
+
+Even so, on 2.8 the per-layer latency numbers extracted by the notebook's
+parser **still do not scale with input length** (q_proj: 225 µs at input=1,
+218 µs at input=2048). The notebook reads events from `pid=701` which is the
+host-side `/host:CPU` plane — compiler passes + `xp.Trace` scope markers with
+IR-build-time durations.
+
+The **real device compute time is on `pid=3` = `/device:TPU:0`**, carried by
+HLO events (`SyncTensorsGraph.N`, `fusion.N`, `copy-*`). Those do scale
+proportionally:
+
+| input_len | SyncTensorsGraph (per forward) |
+|-----------|-------------------------------:|
+|  768      | 10.1 ms |
+| 1024      | 12.0 ms |
+| 1280      | 13.6 ms |
+| 1536      | 15.9 ms |
+| 1792      | 17.3 ms |
+| 2048      | **19.5 ms** |
+
+But pid=3 events carry no Python-scope back-reference — only HLO op names
+like `fusion.42`. `xp.Trace` does not propagate scope metadata to XLA
+op_metadata on the device side for this torch_xla/libtpu combination.
+
+Small configs (input ≤ 512, all decode configs) produced zero device events
+on pid=3 — the trace capture window closes before the (fast) work reaches
+the profiler. Next run should use `REPEAT=30` or explicit longer trace
+duration.
+
+## Path forward (TPU-free analysis phase)
+
+Correlating pid=3 device events back to Python layer scopes (`q_proj`,
+`gate_proj`, etc.) has three candidate approaches, none of which need
+another TPU run:
+
+- **Timestamp correlation** — host-side `xp.Trace` events have a time window;
+  device events falling within that window belong to that scope. Fragile
+  (lazy dispatch means device work lags host window).
+- **HLO shape correlation** — each `fusion.N` event's `args.long_name`
+  contains the HLO shape (`bf16[2048,2048]` etc). Llama-3.2 layer shapes are
+  unique enough to identify q_proj / k_proj / gate_proj / etc. from the
+  matmul shapes. Precise but requires a shape catalog per model.
+- **FLOPS-based split** — measure total `SyncTensorsGraph` time per config,
+  then split proportionally by each layer's theoretical FLOP count. Approximate
+  but simple. Good baseline; lose fine-grained accuracy for latency-bound
+  ops (attention memory-reads dominate at long context, not FLOPS).
+
+HLO shape correlation is likely the right answer for a real profile run, but
+FLOPS split is the fast path to proving the full LLMServingSim pipeline
+end-to-end before investing more TPU time.
+
 ## Artifacts in this directory
 
 - `xplane_reader.py` — raw-wire-format reader for xplane.pb (no TF dep).

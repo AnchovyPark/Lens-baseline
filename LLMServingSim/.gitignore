@@ -1,0 +1,14 @@
+# Ignore env file
+env/
+
+# Ignore python cache
+*.pyc
+__pycache__/
+*.joblib
+
+# Ignore pkl files
+*.pkl
+
+# Ignore local agent notes
+AGENT.md
+CLAUDE.md

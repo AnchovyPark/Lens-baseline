@@ -4,4 +4,25 @@ __pycache__/
 *.pyo
 .claude/scheduled_tasks.lock
 .claude/tasks/
+
+# v1 (legacy)
 LLMServingSim/astra-sim/
+
+# v2 (ispass26-artifact) — keep our additions but skip heavy submodule contents
+LLMServingSim_ispass26/.git
+LLMServingSim_ispass26/astra-sim/extern/
+LLMServingSim_ispass26/astra-sim/build/build/
+LLMServingSim_ispass26/output/
+LLMServingSim_ispass26/llm_profile/profiler/__pycache__/
+
+# legacy redundant artifacts
+LLMServingSim 2/
+LLMServingSim2.0.zip
+
+# our profiling artifacts (regenerated on hardware)
+v5e_official_pipeline/
+v5e_rerun/
+v5e_trace_dryrun/
+
+# big PDFs we downloaded for reference
+*.pdf

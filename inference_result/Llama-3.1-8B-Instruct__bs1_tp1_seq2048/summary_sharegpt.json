@@ -1,0 +1,45 @@
+{
+  "dataset": "sharegpt",
+  "meta": {
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "tp_degree": 1,
+    "max_model_len": 2048,
+    "n_samples": 50,
+    "sampling_seed": null,
+    "backend": "vllm-tpu",
+    "device": "tpu-v5e",
+    "jax_version": "N/A",
+    "tpu_devices": "N/A"
+  },
+  "total_samples": 50,
+  "ok_samples": 50,
+  "skipped_samples": 0,
+  "ttft_ms": {
+    "mean": 18.624,
+    "median": 16.283,
+    "min": 15.306,
+    "max": 57.595,
+    "p99": 57.35,
+    "stdev": 8.569
+  },
+  "tpot_ms": {
+    "mean": 14.512,
+    "median": 14.805,
+    "min": 0,
+    "max": 15.137,
+    "p99": 15.102,
+    "stdev": 2.096
+  },
+  "e2e_ms": {
+    "mean": 4496.96,
+    "median": 3921.778,
+    "min": 57.577,
+    "max": 11614.748,
+    "p99": 11399.516,
+    "stdev": 3292.531
+  },
+  "decode_throughput_tps": {
+    "mean": 155.1,
+    "median": 67.87
+  }
+}

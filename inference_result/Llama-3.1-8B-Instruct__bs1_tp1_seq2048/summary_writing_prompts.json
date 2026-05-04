@@ -1,0 +1,45 @@
+{
+  "dataset": "writing_prompts",
+  "meta": {
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "tp_degree": 1,
+    "max_model_len": 2048,
+    "n_samples": 50,
+    "sampling_seed": null,
+    "backend": "vllm-tpu",
+    "device": "tpu-v5e",
+    "jax_version": "N/A",
+    "tpu_devices": "N/A"
+  },
+  "total_samples": 50,
+  "ok_samples": 50,
+  "skipped_samples": 0,
+  "ttft_ms": {
+    "mean": 16.156,
+    "median": 16.169,
+    "min": 15.706,
+    "max": 16.707,
+    "p99": 16.54,
+    "stdev": 0.214
+  },
+  "tpot_ms": {
+    "mean": 14.747,
+    "median": 14.744,
+    "min": 14.654,
+    "max": 14.88,
+    "p99": 14.868,
+    "stdev": 0.053
+  },
+  "e2e_ms": {
+    "mean": 10389.374,
+    "median": 9080.042,
+    "min": 2627.757,
+    "max": 26918.331,
+    "p99": 25172.49,
+    "stdev": 6197.593
+  },
+  "decode_throughput_tps": {
+    "mean": 67.95,
+    "median": 67.96
+  }
+}

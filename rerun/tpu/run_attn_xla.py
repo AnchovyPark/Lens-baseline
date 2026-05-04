@@ -41,10 +41,22 @@ def _xla_full_sync(*a, **k):
 torch.cuda.synchronize = _xla_full_sync
 torch.cuda.empty_cache = lambda: None
 
-# 4) memory query shim (v5e HBM = 16 GiB; report 14 GiB free to leave headroom)
-_V5E_TOTAL = 16 * (1024 ** 3)
-_V5E_FREE = 14 * (1024 ** 3)
-torch.cuda.mem_get_info = lambda *a, **k: (_V5E_FREE, _V5E_TOTAL)
+# 4) memory query shim (per-chip HBM). batch_sampling.py:163 uses mem_get_info to
+#    decide which (chunk, kv, batch) combinations fit. Pick by --hardware:
+#      TPU-v5e-1: 16 GB HBM
+#      TPU-v6e-1: 32 GB HBM
+_HBM_BY_HW = {
+    "TPU-v5e-1": 16 * (1024 ** 3),
+    "TPU-v6e-1": 32 * (1024 ** 3),
+}
+_hw_arg = "TPU-v6e-1"
+for i, a in enumerate(sys.argv):
+    if a == "--hardware" and i + 1 < len(sys.argv):
+        _hw_arg = sys.argv[i + 1]
+        break
+_HBM_TOTAL = _HBM_BY_HW.get(_hw_arg, 32 * (1024 ** 3))
+_HBM_FREE = _HBM_TOTAL - 2 * (1024 ** 3)  # 2 GB headroom for activations / runtime
+torch.cuda.mem_get_info = lambda *a, **k: (_HBM_FREE, _HBM_TOTAL)
 
 # 5) OOM class: never actually raised on TPU, but except clause references it
 torch.cuda.OutOfMemoryError = RuntimeError  # safe superclass; nothing matches
@@ -87,12 +99,18 @@ assert getattr(flash_attn, "__version__", "") == "xla-stub", \
     f"expected xla-stub flash_attn, got: {flash_attn.__file__}"
 print(f"[xla_shim] flash_attn stub active: {flash_attn.__file__}")
 
-# Default argv: our use case — max-len 2048, batch=1 only
-# (covers ShareGPT + CNN, partial arxiv; predictor extrapolates to 8k).
+# Default argv: v6e × Llama-3.1-8B, max-len 8192, batch=1.
+# Covers ShareGPT (~400), CNN (~1.1k), Writing-prompts (~1.2k), arXiv (~3.5–8.5k).
+# Author's v6e ipynb sweeps to 2048 only; we extend to 8192 because the simulator's
+# DB-lookup mode (default) raises KeyError when (kv > 2048) is queried, and the
+# sklearn predictor mode (random forest) clamps at the training boundary — both
+# silently break long-context datasets without wider profiling.
+# batch=1 keeps the (chunk × kv × batch) sweep tractable; larger batches at
+# kv=8192 don't fit anyway (256 batches × 8192 kv × 128KB/tok ≈ 256 GB ≫ 32 GB HBM).
 _DEFAULT_ARGS = [
-    "--model", "meta-llama/Llama-3.2-1B-Instruct",
-    "--hardware", "TPU-v5e-1",
-    "--max-len", "2048",
+    "--model", "meta-llama/Llama-3.1-8B",
+    "--hardware", "TPU-v6e-1",
+    "--max-len", "8192",
     "--tp-size", "1",
     "--min-batch-size", "1",
     "--max-batch-size", "1",

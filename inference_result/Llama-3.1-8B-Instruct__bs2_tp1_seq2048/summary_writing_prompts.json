@@ -1,0 +1,18 @@
+{
+  "dataset": "writing_prompts",
+  "n_batches": 50,
+  "batch_e2e_ms": {
+    "mean": 14949.926,
+    "median": 14248.901,
+    "min": 4346.201,
+    "max": 30208.718
+  },
+  "meta": {
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "tp_degree": 1,
+    "batch_size": 2,
+    "max_model_len": 2048,
+    "backend": "vllm-tpu",
+    "timestamp": "2026-05-04T08:37:09.996457"
+  }
+}

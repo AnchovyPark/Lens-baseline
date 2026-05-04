@@ -1,0 +1,18 @@
+{
+  "dataset": "sharegpt",
+  "n_batches": 45,
+  "batch_e2e_ms": {
+    "mean": 7892.732,
+    "median": 8070.988,
+    "min": 2830.569,
+    "max": 11745.024
+  },
+  "meta": {
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "tp_degree": 1,
+    "batch_size": 4,
+    "max_model_len": 2048,
+    "backend": "vllm-tpu",
+    "timestamp": "2026-05-04T07:58:11.325678"
+  }
+}

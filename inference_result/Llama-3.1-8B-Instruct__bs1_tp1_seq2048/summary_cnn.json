@@ -1,0 +1,45 @@
+{
+  "dataset": "cnn",
+  "meta": {
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "tp_degree": 1,
+    "max_model_len": 2048,
+    "n_samples": 50,
+    "sampling_seed": null,
+    "backend": "vllm-tpu",
+    "device": "tpu-v5e",
+    "jax_version": "N/A",
+    "tpu_devices": "N/A"
+  },
+  "total_samples": 50,
+  "ok_samples": 50,
+  "skipped_samples": 0,
+  "ttft_ms": {
+    "mean": 33.279,
+    "median": 30.912,
+    "min": 18.635,
+    "max": 59.09,
+    "p99": 57.04,
+    "stdev": 12.025
+  },
+  "tpot_ms": {
+    "mean": 14.902,
+    "median": 14.881,
+    "min": 14.684,
+    "max": 15.165,
+    "p99": 15.132,
+    "stdev": 0.104
+  },
+  "e2e_ms": {
+    "mean": 994.177,
+    "median": 951.871,
+    "min": 282.728,
+    "max": 1973.688,
+    "p99": 1767.644,
+    "stdev": 372.639
+  },
+  "decode_throughput_tps": {
+    "mean": 68.33,
+    "median": 68.37
+  }
+}

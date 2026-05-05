@@ -1,16 +1,47 @@
 # Project Memory
 
-Last updated: 2026-04-28.
+Last updated: 2026-05-05.
 
-## Goal
+## Goal — UPDATED 2026-05-05 (CRITICAL)
 
-Compare **TTFT / TPOT** of LLM inference across NPUs using two simulators in this repo:
+**This project's only purpose is to faithfully reproduce LLMServingSim v2** (casys-kaist
+fork — branch ispass26-artifact or main v1.1.0) using the author's code AS-IS.
 
-- **LLMServingSim v2** — serving-level simulator. Native TTFT/TPOT output. Consumes
-  per-layer latency CSVs under `<repo>/llm_profile/perf_models/{hardware}/{model}/tp{N}/`.
-- **ONNXim** — cycle-level NPU simulator. Cross-check / refine LLMServingSim's per-layer latencies.
+**It is NOT** a benchmark of the simulator's accuracy, nor an effort to improve its
+accuracy. We do not evaluate, "make it look better", or "make it look worse".
 
-Primary output: per-request TTFT/TPOT from LLMServingSim, validated against real vLLM-TPU measurements.
+### Hard rules (do not violate)
+
+- ❌ NEVER apply external calibration constants (sf / scaling factor / multiplicative
+  correction) to perf-model CSVs or to the simulator's outputs.
+- ❌ NEVER edit `layers.csv` / `attention.csv` to align simulator output to real
+  measurements.
+- ❌ NEVER tune `cluster_config` (HBM bw, link bw, etc.) to match real numbers — keep
+  author/spec values exactly.
+- ❌ NEVER add value judgments ("this is acceptable" / "this is too inaccurate") to
+  baseline reports. Just present raw numbers.
+- ✅ Build the simulator with the author's instructions; run it with the author's perf
+  data; report whatever it outputs as-is.
+- ✅ Any discrepancy with real measurements is the simulator's intrinsic behavior.
+  Do not paper over it.
+
+**Comparison is allowed only as observation**, never as something to be "fixed" by
+local hacks. If the user asks "why does it differ", explain mechanisms. Do not
+silently apply corrections.
+
+### What we report
+- Output of `python3 main.py ...` directly (the CSV the simulator writes).
+- Comparison vs `inference_result/` real vLLM-TPU measurements as a side-by-side table,
+  raw numbers, no editorial.
+
+### What we don't do
+- No `*.scaled_X.YY` perf files.
+- No `fit_sf_*.py`, no `per_batch_sf*.py`, no calibration scripts.
+- No "after applying X, error becomes Y" framing.
+
+(Past mistake on 2026-05-04: I fitted sf=1.19 from real-vs-sim ratios and rewrote
+perf CSVs ×sf, then reported "now error is 1.5%". User flagged this as wrong on
+2026-05-05. All sf artifacts deleted.)
 
 ## Repo layout (2026-04-28)
 
@@ -156,12 +187,29 @@ python3 ../analysis/compare_v6e_8b.py
 
 1. SSH to lab server (or boot v6e VM if going for fresh profiling).
 2. Pull this repo: `git clone https://github.com/AnchovyPark/Lens-baseline.git`.
-3. Init submodules in `LLMServingSim_ispass26/` and build astra-sim.
+3. Init submodules in `LLMServingSim_ispass26/` and build astra-sim (docker-based,
+   `astrasim/tutorial-micro2024` image works).
 4. Run `rerun/tpu/run_v6e_8b_baseline.sh` (adjust REPO path inside).
-5. Run `analysis/compare_v6e_8b.py` to get real-vs-sim error table.
-6. If errors are large → deep-dive (HBM model, latency model, batch handling).
-7. If acceptable → expand scope: re-profile v6e × 8B with our extended sweep
-   (max-len 8192, batches 1-8) to cover arXiv + writing-prompts long-tail.
+5. Run `analysis/compare_v6e_8b.py` to get real-vs-sim **observation** table.
+6. **Report raw numbers only. Do not "fix" any discrepancy via sf, perf-data
+   rewriting, or cluster_config tweaking. Per Goal section above.**
+
+## Baseline state (2026-05-05, sim-as-shipped)
+
+Pure LLMServingSim v2 with author-shipped TPU-v6e-1 perf data, no calibration:
+
+bs=1 per-request medians:
+- sharegpt:        TTFT 11.98 ms (real 16.28), TPOT 12.31 ms (real 14.80), E2E 3261 ms (real 3922)
+- cnn:             TTFT 18.02 ms (real 30.91), TPOT 12.61 ms (real 14.88), E2E  796 ms (real  952)
+- writing_prompts: TTFT 11.88 ms (real 16.17), TPOT 12.39 ms (real 14.74)
+
+bs=2/4 wall-time and per-request comparison done, kept as-is in
+`LLMServingSim_ispass26/output/v6e_8b_baseline/`. Schema mismatch (real has per-batch
+batch_e2e_ms; sim has per-request) noted as observation; no special transform applied.
+
+Note: `output/v6e_8b_baseline/sharegpt_bs1.csv` is currently MISSING because it was
+deleted during a prior (now-discarded) sf experiment. Re-run with author's pristine
+perf data needed to restore the cell.
 
 ## Key decisions / conventions
 

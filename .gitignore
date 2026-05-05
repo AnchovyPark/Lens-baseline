@@ -26,3 +26,6 @@ v5e_trace_dryrun/
 
 # big PDFs we downloaded for reference
 *.pdf
+
+# astra-sim cloned by step 1 of SIMULATION_HISTORY.md (rebuild via clone, don't track)
+LLMServingSim_ispass26/astra-sim/
